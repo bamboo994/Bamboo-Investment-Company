@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Invest-BambooGH | Premium Investment Platform Ghana</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav style="background: white; box-shadow: 0 2px 12px rgba(0,0,0,0.04); position: sticky; top: 0; z-index: 100; padding: 12px 20px;">
+        <div style="max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
+            <!-- Logo -->
+            <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.reload();">
+                <div style="width: 38px; height: 38px; background: linear-gradient(135deg, #0F4C3A, #1B6B4A); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                    <span style="color: white; font-weight: bold; font-size: 1.2rem;">B</span>
+                </div>
+                <span style="font-size: 1.4rem; font-weight: 800; color: #1f2937;">Invest-<span style="color: #D4AF37;">BambooGH</span></span>
+            </div>
+
+            <!-- Desktop Navigation Links -->
+            <div class="desktop-nav" style="display: flex; gap: 32px; align-items: center;">
+                <a class="desktop-nav-link" data-nav="dashboard" style="font-weight: 500; color: #4b5563;"><i class="fas fa-tachometer-alt" style="margin-right: 6px;"></i> Dashboard</a>
+                <a class="desktop-nav-link" data-nav="plans" style="font-weight: 500; color: #4b5563;"><i class="fas fa-chart-line" style="margin-right: 6px;"></i> Plans</a>
+                <a class="desktop-nav-link" data-nav="referrals" style="font-weight: 500; color: #4b5563;"><i class="fas fa-users" style="margin-right: 6px;"></i> Referrals</a>
+                <a class="desktop-nav-link" data-nav="testimonials" style="font-weight: 500; color: #4b5563;"><i class="fas fa-star" style="margin-right: 6px;"></i> Testimonials</a>
+            </div>
+
+            <!-- Right side: User info + Mobile Menu Toggle -->
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <span id="userShortName" style="font-size: 0.85rem; color: #0F4C3A; font-weight: 500; display: none;"></span>
+                <button id="logoutBtnMobile" class="btn-secondary" style="background: #f3f4f6; border: none; padding: 8px 16px; border-radius: 40px; font-size: 0.8rem; display: none; cursor: pointer;">Logout</button>
+                <button id="showAuthBtn" class="btn-primary" style="color: white; border: none; padding: 8px 20px; border-radius: 40px; font-weight: 600; cursor: pointer;">Login</button>
+                
+                <!-- Mobile Hamburger -->
+                <button id="mobileMenuToggle" class="mobile-nav-trigger" style="display: none; background: none; border: none; font-size: 1.8rem; color: #0F4C3A; cursor: pointer;">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobileDropdownMenu" class="mobile-dropdown-menu">
+            <div class="mobile-nav-item" data-mobile-nav="dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</div>
+            <div class="mobile-nav-item" data-mobile-nav="plans"><i class="fas fa-chart-line"></i> Investment Plans</div>
+            <div class="mobile-nav-item" data-mobile-nav="referrals"><i class="fas fa-users"></i> Referrals</div>
+            <div class="mobile-nav-item" data-mobile-nav="testimonials"><i class="fas fa-star"></i> Testimonials</div>
+            <div class="mobile-nav-item" id="mobileLogoutItem" style="border-bottom: none; color: #dc2626;"><i class="fas fa-sign-out-alt"></i> Logout</div>
+        </div>
+    </nav>
+
+    <!-- Main Content Sections -->
+    <main style="max-width: 1280px; margin: 0 auto; padding: 24px 20px 60px;">
+        <!-- DASHBOARD SECTION -->
+        <div id="dashboardSection" class="page-section active-section">
+            <div id="dashboardLoggedOut" style="text-align: center; padding: 60px 20px; background: white; border-radius: 28px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                <i class="fas fa-chart-line" style="font-size: 64px; color: #d1d5db; margin-bottom: 16px;"></i>
+                <h3 style="font-size: 1.5rem; font-weight: 600;">Access Your Dashboard</h3>
+                <p style="color: #6b7280; margin: 12px 0;">Login to track investments, returns & referral earnings</p>
+                <button onclick="document.getElementById('showAuthBtn').click()" class="btn-primary" style="color: white; border: none; padding: 12px 32px; border-radius: 40px; margin-top: 12px; cursor: pointer;">Get Started</button>
+            </div>
+
+            <div id="dashboardLoggedIn" style="display: none;">
+                <div class="welcome-banner">
+                    <div style="display: flex; justify-content: space-between; flex-wrap: wrap; align-items: center;">
+                        <div>
+                            <h2 style="font-size: 1.6rem;">Welcome, <span id="dashUserName"></span>!</h2>
+                            <p style="opacity: 0.9;">📞 <span id="dashPhone"></span></p>
+                            <div class="bonus-badge"><i class="fas fa-gift text-gold"></i> <span id="bonusMsg">GHS 30 Bonus Credited</span></div>
+                        </div>
+                        <div><i class="fas fa-chart-simple" style="font-size: 48px; opacity: 0.3;"></i></div>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 32px;">
+                    <div class="stat-card"><p>💰 Total Invested</p><p class="stat-value">GHS <span id="totalInvestedVal">0</span></p></div>
+                    <div class="stat-card"><p>📈 Pending Returns</p><p class="stat-value">GHS <span id="pendingReturnsVal">0</span></p></div>
+                    <div class="stat-card"><p>👥 Referral Earnings</p><p class="stat-value">GHS <span id="referralEarningsVal">0</span></p></div>
+                </div>
+                
+                <!-- Withdraw Form -->
+                <div style="background: white; border-radius: 28px; padding: 24px; margin-top: 12px;">
+                    <h3 style="font-size: 1.3rem; margin-bottom: 16px;"><i class="fas fa-hand-holding-usd text-gold"></i> Withdraw Funds (3% Fee)</h3>
+                    <input type="number" id="withdrawAmountInput" placeholder="Amount in GHS" class="form-input" style="margin-bottom: 12px;">
+                    <div id="feePreviewBox" class="fee-preview">Fee preview will appear here</div>
+                    <button id="requestWithdrawBtn" class="btn-gold" style="width: 100%; border: none; padding: 14px; border-radius: 40px; font-weight: bold; cursor: pointer;">Request Withdrawal</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PLANS SECTION -->
+        <div id="plansSection" class="page-section">
+            <h2 style="font-size: 1.8rem; font-weight: 700; margin-bottom: 24px;"><span style="border-left: 4px solid #D4AF37; padding-left: 12px;">Investment Plans</span></h2>
+            <div id="plansContainer" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;"></div>
+        </div>
+
+        <!-- REFERRALS SECTION -->
+        <div id="referralsSection" class="page-section">
+            <div style="background: white; border-radius: 32px; padding: 32px; max-width: 600px; margin: 0 auto; text-align: center;">
+                <i class="fas fa-link" style="font-size: 48px; color: #D4AF37;"></i>
+                <h2 style="margin: 16px 0 8px;">Referral Program</h2>
+                <p>Earn 3% on every deposit from friends you refer.</p>
+                <div style="background: #f9fafb; padding: 16px; border-radius: 20px; margin: 24px 0;">
+                    <p style="font-size: 0.75rem; text-transform: uppercase;">Your unique link</p>
+                    <div style="display: flex; gap: 8px;"><input type="text" id="referralLinkDisplay" readonly class="form-input" style="flex:1;"><button id="copyLinkBtn" class="btn-primary" style="color:white; border:none; border-radius:40px; padding:0 20px; cursor: pointer;">Copy</button></div>
+                </div>
+                <div style="background: #e6f7e6; padding: 16px; border-radius: 20px;"><i class="fas fa-info-circle"></i> Bonus: 3% credited automatically when referred friends invest.</div>
+            </div>
+        </div>
+
+        <!-- TESTIMONIALS SECTION -->
+        <div id="testimonialsSection" class="page-section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; flex-wrap: wrap;">
+                <h2 style="font-size: 1.8rem; font-weight: 700;"><i class="fas fa-star text-gold"></i> Success Stories</h2>
+                <button id="addTestimonialBtn" class="btn-primary" style="border: none; padding: 10px 24px; border-radius: 40px; color: white; cursor: pointer;">Share Your Story</button>
+            </div>
+            <div id="testimonialsGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px;"></div>
+        </div>
+    </main>
+
+    <!-- Floating Contact -->
+    <div class="float-contact">
+        <a href="https://wa.me/233592204275?text=Hello%20Invest-BambooGH" target="_blank" class="contact-btn" style="background: #25D366; color: white; text-decoration: none;"><i class="fab fa-whatsapp" style="font-size: 28px;"></i></a>
+        <button id="showContactModal" class="contact-btn" style="background: #D4AF37; color: #0F4C3A; cursor: pointer;"><i class="fas fa-headset" style="font-size: 24px;"></i></button>
+    </div>
+
+    <!-- Contact Modal -->
+    <div id="contactModal" style="display: none; position: fixed; inset:0; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); align-items: center; justify-content: center; z-index: 200;">
+        <div style="background: white; max-width: 400px; width: 90%; border-radius: 40px; padding: 24px;">
+            <h3><i class="fas fa-headset"></i> Customer Support</h3>
+            <hr style="margin: 12px 0;">
+            <a href="tel:+233207845354" style="display: block; padding: 12px; background:#f3f4f6; border-radius: 60px; margin: 10px 0; text-decoration: none; color: #333;"><i class="fas fa-phone-alt"></i> Call +233207845354</a>
+            <a href="https://wa.me/233592204275" target="_blank" style="display: block; padding: 12px; background:#f3f4f6; border-radius: 60px; margin: 10px 0; text-decoration: none; color: #333;"><i class="fab fa-whatsapp"></i> WhatsApp +233592204275</a>
+            <button id="closeContactModal" style="margin-top: 16px; width:100%; background:#e5e7eb; border:none; padding:12px; border-radius:60px; cursor: pointer;">Close</button>
+        </div>
+    </div>
+
+    <!-- Auth Modal with Green Toggle -->
+    <div id="authModal" style="display: none; position: fixed; inset:0; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); align-items: center; justify-content: center; z-index: 200;">
+        <div style="background: white; max-width: 460px; width: 90%; border-radius: 40px; padding: 28px;">
+            <div class="auth-toggle-container">
+                <button id="showLoginTab" class="auth-toggle-btn active">Login</button>
+                <button id="showRegisterTab" class="auth-toggle-btn inactive">Register</button>
+            </div>
+            
+            <!-- Login Panel -->
+            <div id="loginPanel">
+                <input type="email" id="loginEmail" placeholder="Email Address" class="form-input" style="margin-bottom: 12px;">
+                <input type="password" id="loginPassword" placeholder="Password" class="form-input" style="margin-bottom: 20px;">
+                <button id="doLoginBtn" class="btn-primary" style="width:100%; border:none; padding:14px; border-radius:60px; color:white; font-weight:600; cursor: pointer;">Sign In</button>
+            </div>
+            
+            <!-- Register Panel with Confirm Password -->
+            <div id="registerPanel" style="display:none;">
+                <input type="text" id="regName" placeholder="Full Name" class="form-input" style="margin-bottom: 12px;">
+                <input type="email" id="regEmail" placeholder="Email Address" class="form-input" style="margin-bottom: 12px;">
+                <input type="tel" id="regPhone" placeholder="Phone Number" class="form-input" style="margin-bottom: 12px;">
+                <input type="password" id="regPassword" placeholder="Password (min 6 characters)" class="form-input" style="margin-bottom: 12px;">
+                <input type="password" id="regConfirmPassword" placeholder="Confirm Password" class="form-input" style="margin-bottom: 20px;">
+                <button id="doRegisterBtn" class="btn-primary" style="width:100%; border:none; padding:14px; border-radius:60px; color:white; font-weight:600; cursor: pointer;">Register + GHS 30 Bonus</button>
+            </div>
+            
+            <button id="closeAuthModalBtn" style="margin-top: 16px; width:100%; background:#f3f4f6; border:none; padding:12px; border-radius:60px; cursor: pointer;">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Testimonial Modal -->
+    <div id="testimonialFormModal" style="display: none; position: fixed; inset:0; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index:200;">
+        <div style="background:white; border-radius:32px; padding:24px; width:90%; max-width:420px;">
+            <textarea id="testimonialComment" rows="3" placeholder="I invested GHS 150 and got GHS 750 profit!" class="form-input" style="border-radius:20px;"></textarea>
+            <input type="text" id="testimonialAuthor" placeholder="Your Name" class="form-input" style="margin:12px 0;">
+            <select id="testimonialStars" class="form-input" style="border-radius:40px;">
+                <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
+                <option value="4">⭐⭐⭐⭐ Good</option>
+            </select>
+            <button id="submitTestimonialBtn" class="btn-primary" style="width:100%; border:none; padding:12px; border-radius:40px; color:white; margin-top:16px; cursor: pointer;">Post Story</button>
+            <button id="closeTestimonialModalBtn" style="margin-top:12px; width:100%; background:#e5e7eb; border:none; padding:12px; border-radius:40px; cursor: pointer;">Cancel</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
